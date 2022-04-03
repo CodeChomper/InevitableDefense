@@ -11,6 +11,7 @@ var can_shoot = false
 var bullet_scene = load("res://Heli/Bullet.tscn")
 var health = 100
 var dead = false
+var person
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,6 +23,10 @@ func _physics_process(delta):
 	get_input()
 	velocity = move_and_slide(velocity)
 	$AnimatedSprite.rotation_degrees = velocity.x * 0.02
+	if person != null:
+		if person.on_heli:
+			person.global_position = global_position
+			person.global_position.y += 45
 	pass
 
 func shoot():
@@ -70,6 +75,13 @@ func take_damage(damage):
 	health -= damage
 	if health <= 0:
 		die()
+	pass
+
+func get_in_heli(person):
+	self.person = person
+	add_child(person)
+	person.global_position = global_position
+	person.global_position.y += 20
 	pass
 
 func die():
