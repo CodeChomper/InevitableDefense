@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Alien/Alien.png" type="Texture" id=1]
 [ext_resource path="res://Alien/Alien.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 223, 107 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 29, 20 )
 
 [node name="Alien" type="KinematicBody2D"]
 collision_layer = 32
@@ -30,6 +33,20 @@ shape = SubResource( 1 )
 wait_time = 0.2
 autostart = true
 
+[node name="ChangePatrolDir" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="Bump" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 20
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bump"]
+position = Vector2( 0, -5 )
+shape = SubResource( 2 )
+
 [connection signal="area_entered" from="HeliShootZone" to="." method="_on_HeliShootZone_area_entered"]
 [connection signal="area_exited" from="HeliShootZone" to="." method="_on_HeliShootZone_area_exited"]
 [connection signal="timeout" from="CanShoot" to="." method="_on_CanShoot_timeout"]
+[connection signal="timeout" from="ChangePatrolDir" to="." method="_on_ChangePatrolDir_timeout"]
+[connection signal="area_entered" from="Bump" to="." method="_on_Bump_area_entered"]

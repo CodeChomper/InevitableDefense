@@ -16,4 +16,16 @@ func turn_towards(angle):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	move_and_collide(velocity)
+	var other = move_and_collide(velocity)
+	if other != null:
+		if other.collider.has_method("take_damage"):
+			other.collider.take_damage(25)
+			print("delt damage")
+		
+		queue_free()
+
+
+func _on_Area2D_area_entered(area):
+	if area.is_in_group("Sides"):
+		queue_free()
+	pass # Replace with function body.

@@ -9,6 +9,8 @@ var MAX_SPEED = 200
 var velocity = Vector2()
 var can_shoot = false
 var bullet_scene = load("res://Heli/Bullet.tscn")
+var health = 100
+var dead = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -39,7 +41,8 @@ func shoot():
 	pass
 
 func get_input():
-	
+	if dead:
+		return
 	if Input.is_action_pressed("up"):
 		velocity.y -= SPEED
 	if Input.is_action_pressed("down"):
@@ -64,7 +67,14 @@ func going_left():
 	return velocity.x < 0
 
 func take_damage(damage):
+	health -= damage
+	if health <= 0:
+		die()
 	pass
+
+func die():
+	dead = true
+	$AnimatedSprite.visible = false
 
 func _on_Overlaping_area_entered(area):
 	if area.is_in_group('Sides'):

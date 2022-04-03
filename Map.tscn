@@ -447,4 +447,4 @@ position = Vector2( 1453, -55 )
 shape = SubResource( 11 )
 
 [node name="Alien" parent="." instance=ExtResource( 4 )]
-position = Vector2( 555, 357 )
+position = Vector2( 865, 250 )
