@@ -7,6 +7,9 @@ extends KinematicBody2D
 var heli
 var _health = 100
 var velocity = Vector2()
+var shoot_heli = false
+var lazer_scene = load("res://Alien/Laser.tscn")
+var can_shoot = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,9 +33,37 @@ func _physics_process(delta):
 	else:
 		$Sprite.flip_h = false
 	
+	if can_shoot and shoot_heli:
+		shoot()
+	
 	move_and_collide(velocity)
 #	pass
+
+func shoot():
+	can_shoot = false
+	var lazer = lazer_scene.instance()
+	lazer.global_position = global_position
+	lazer.velocity = velocity * 2
+	var rot = global_position.angle_to(heli.global_position)
+	lazer.turn_towards(rot)
+	get_parent().add_child(lazer)
+	pass
 
 
 func die():
 	queue_free()
+
+
+func _on_HeliShootZone_area_entered(area):
+	shoot_heli = true
+	pass # Replace with function body.
+
+
+func _on_HeliShootZone_area_exited(area):
+	shoot_heli = false
+	pass # Replace with function body.
+
+
+func _on_CanShoot_timeout():
+	can_shoot = true
+	pass # Replace with function body.
