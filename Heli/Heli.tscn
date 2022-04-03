@@ -1,0 +1,65 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Heli/Heli7.png" type="Texture" id=1]
+[ext_resource path="res://Heli/Heli8.png" type="Texture" id=2]
+[ext_resource path="res://Heli/Heli2.png" type="Texture" id=3]
+[ext_resource path="res://Heli/Heli3.png" type="Texture" id=4]
+[ext_resource path="res://Heli/Heli4.png" type="Texture" id=5]
+[ext_resource path="res://Heli/Heli5.png" type="Texture" id=6]
+[ext_resource path="res://Heli/Heli6.png" type="Texture" id=7]
+[ext_resource path="res://Heli/Heli1.png" type="Texture" id=8]
+[ext_resource path="res://Heli/Heli.gd" type="Script" id=9]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 8 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 40.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 31.5, 19 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 31.5, 19 )
+
+[node name="Heli" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 12
+script = ExtResource( 9 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+frame = 4
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.5, -3 )
+shape = SubResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+limit_left = -100
+limit_top = 0
+limit_right = 3000
+limit_bottom = 700
+limit_smoothed = true
+drag_margin_h_enabled = true
+smoothing_speed = 400.0
+drag_margin_left = 0.6
+drag_margin_top = 1.0
+drag_margin_right = 0.6
+drag_margin_bottom = 1.0
+editor_draw_limits = true
+editor_draw_drag_margin = true
+
+[node name="Overlaping" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 20
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Overlaping"]
+position = Vector2( -0.5, -3 )
+shape = SubResource( 3 )
+
+[connection signal="area_entered" from="Overlaping" to="." method="_on_Overlaping_area_entered"]
