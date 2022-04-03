@@ -1,9 +1,10 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Heli/Heli.tscn" type="PackedScene" id=1]
 [ext_resource path="res://TileSet/Tiles/City.png" type="Texture" id=2]
 [ext_resource path="res://Clouds/CloudSpawner.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Alien/Alien.tscn" type="PackedScene" id=4]
+[ext_resource path="res://People/Person.tscn" type="PackedScene" id=5]
 
 [sub_resource type="Gradient" id=9]
 colors = PoolColorArray( 0.294118, 0.501961, 0.792157, 1, 0.538834, 0.700316, 0.925781, 1 )
@@ -446,5 +447,8 @@ __meta__ = {
 position = Vector2( 1453, -55 )
 shape = SubResource( 11 )
 
-[node name="Alien" parent="." instance=ExtResource( 4 )]
+[node name="Alien" parent="." groups=["Alien"] instance=ExtResource( 4 )]
 position = Vector2( 865, 250 )
+
+[node name="Person" parent="." instance=ExtResource( 5 )]
+position = Vector2( 1069, 607 )

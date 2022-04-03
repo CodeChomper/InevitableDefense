@@ -12,6 +12,8 @@ var lazer_scene = load("res://Alien/Laser.tscn")
 var can_shoot = false
 var ai_state = ""
 var updown = 0
+var prev_x_velocity = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	heli = get_parent().find_node("Heli")
@@ -28,29 +30,31 @@ func _physics_process(delta):
 		$Sprite.flip_h = true
 	else:
 		$Sprite.flip_h = false
-	velocity = move_and_slide(velocity)
+	move_and_slide(velocity)
 	
 	if ai_state == "patrol":
 		patrol(delta)
 	elif ai_state == "attack":
 		attack()
-	else:
-		print(ai_state)
+	elif ai_state == "abduct":
+		abduct()
 	
 	if heli != null and !heli.dead and global_position.distance_to(heli.global_position) < 500:
 		self.ai_state = "attack"
 	else:
 		self.ai_state = "patrol"
 
+func abduct():
+	$BeamSprite.visible = true
+	velocity = Vector2()
+
 func patrol(delta):
 	# look for people
-	
-	
 	# move up and down
 	var v = Vector2(0,0)
-	updown += delta
+	updown += delta / 4
 	var freq = 1
-	var amplitude = 20
+	var amplitude = 40
 	velocity.y = cos(updown*freq)*amplitude
 	#velocity = move_and_slide(velocity)
 	
@@ -62,11 +66,6 @@ func attack():
 	velocity *= 60
 	if can_shoot and shoot_heli:
 		shoot()
-	
-	
-
-func abduct():
-	pass
 
 func shoot():
 	can_shoot = false
@@ -107,3 +106,20 @@ func _on_ChangePatrolDir_timeout():
 	var switch_dir = rand_range(0, 100)
 	if switch_dir > 50:
 		velocity.x *= -1
+
+
+func _on_Beam_area_entered(area):
+	ai_state = "abduct"
+	prev_x_velocity = velocity.x
+	if area.get_parent().has_method("get_abducted"):
+		area.get_parent().get_abducted(self)
+		print("Found PERSON!!!!")
+	pass # Replace with function body.
+
+
+func _on_Beam_area_exited(area):
+	if area.get_parent().has_method("get_abducted"):
+		area.get_parent().being_abducted = false
+		$BeamSprite.visible = false
+		velocity.x = prev_x_velocity
+	pass # Replace with function body.

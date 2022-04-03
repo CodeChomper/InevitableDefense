@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Alien/Alien.png" type="Texture" id=1]
 [ext_resource path="res://Alien/Alien.gd" type="Script" id=2]
+[ext_resource path="res://Alien/beam.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 223, 107 )
@@ -13,6 +14,12 @@ extents = Vector2( 29, 20 )
 collision_layer = 32
 collision_mask = 62
 script = ExtResource( 2 )
+
+[node name="BeamSprite" type="Sprite" parent="."]
+visible = false
+position = Vector2( 14, 702 )
+scale = Vector2( 2, 1 )
+texture = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -26,7 +33,7 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HeliShootZone"]
-position = Vector2( 1, 107 )
+position = Vector2( 0, 107 )
 shape = SubResource( 1 )
 
 [node name="CanShoot" type="Timer" parent="."]
@@ -45,8 +52,18 @@ collision_mask = 20
 position = Vector2( 0, -5 )
 shape = SubResource( 2 )
 
+[node name="Beam" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 64
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Beam"]
+position = Vector2( 0, -9 )
+polygon = PoolVector2Array( -8, 17, -66, 1411, 72, 1411, 7, 17 )
+
 [connection signal="area_entered" from="HeliShootZone" to="." method="_on_HeliShootZone_area_entered"]
 [connection signal="area_exited" from="HeliShootZone" to="." method="_on_HeliShootZone_area_exited"]
 [connection signal="timeout" from="CanShoot" to="." method="_on_CanShoot_timeout"]
 [connection signal="timeout" from="ChangePatrolDir" to="." method="_on_ChangePatrolDir_timeout"]
 [connection signal="area_entered" from="Bump" to="." method="_on_Bump_area_entered"]
+[connection signal="area_entered" from="Beam" to="." method="_on_Beam_area_entered"]
+[connection signal="area_exited" from="Beam" to="." method="_on_Beam_area_exited"]

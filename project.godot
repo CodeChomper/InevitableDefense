@@ -62,6 +62,7 @@ shoot={
 2d_physics/layer_4="PlayerCollision"
 2d_physics/layer_5="Roof"
 2d_physics/layer_6="Alien"
+2d_physics/layer_7="Person"
 
 [physics]
 
