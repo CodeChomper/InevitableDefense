@@ -7,6 +7,8 @@ extends KinematicBody2D
 var SPEED = 9
 var MAX_SPEED = 200
 var velocity = Vector2()
+var can_shoot = false
+var bullet_scene = load("res://Heli/bullet.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,6 +20,22 @@ func _physics_process(delta):
 	get_input()
 	velocity = move_and_slide(velocity)
 	$AnimatedSprite.rotation_degrees = velocity.x * 0.02
+	pass
+
+func shoot():
+	can_shoot = false
+	var bullet = bullet_scene.instance()
+	get_parent().add_child(bullet)
+	
+	bullet.position = global_position
+	bullet.position.y += 5
+	if going_left():
+		bullet.position.x -= 42
+		bullet.velocity *= -1
+	else:
+		bullet.position.x += 42
+	
+	print("shoot")
 	pass
 
 func get_input():
@@ -34,15 +52,28 @@ func get_input():
 	velocity.x = clamp(velocity.x, -MAX_SPEED, MAX_SPEED)
 	velocity.y = clamp(velocity.y, -MAX_SPEED, MAX_SPEED)
 	
-	if velocity.x < 0:
+	if going_left():
 		$AnimatedSprite.set_flip_h(true)
 	else:
 		$AnimatedSprite.set_flip_h(false)
+	
+	if can_shoot and Input.is_action_pressed("shoot"):
+		shoot()
 
+func going_left():
+	return velocity.x < 0
+
+func take_damage(damage):
+	pass
 
 func _on_Overlaping_area_entered(area):
 	if area.is_in_group('Sides'):
 		velocity.x *= -1
 	if area.is_in_group('Roof'):
 		velocity.y *= -1
+	pass # Replace with function body.
+
+
+func _on_CanShoot_timeout():
+	can_shoot = true
 	pass # Replace with function body.
