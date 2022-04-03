@@ -8,7 +8,7 @@ var SPEED = 9
 var MAX_SPEED = 200
 var velocity = Vector2()
 var can_shoot = false
-var bullet_scene = load("res://Heli/bullet.tscn")
+var bullet_scene = load("res://Heli/Bullet.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
