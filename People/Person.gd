@@ -32,6 +32,9 @@ func _physics_process(delta):
 	
 	if is_on_floor():
 		if prev_velocity.y > 90 and ai_state != "on_heli":
+			var splat = splat_scene.instance()
+			get_parent().add_child(splat)
+			splat.global_position = global_position
 			die()
 			return
 		ai_state = "walking"
@@ -65,9 +68,6 @@ func get_abducted(ship):
 
 func die():
 	emit_signal("person_died")
-	var splat = splat_scene.instance()
-	get_parent().add_child(splat)
-	splat.global_position = global_position
 	queue_free()
 
 

@@ -105,6 +105,10 @@ func get_in_heli(person):
 
 func die():
 	emit_signal("heli_died")
+	$DeathTimer.start(0.5)
+	$Explosion.play(0)
+	$Explosion_Sprite.visible = true
+	$Explosion_Sprite.play("default")
 	dead = true
 	$AnimatedSprite.visible = false
 	healthbar.visible = false
@@ -119,4 +123,9 @@ func _on_Overlaping_area_entered(area):
 
 func _on_CanShoot_timeout():
 	can_shoot = true
+	pass # Replace with function body.
+
+
+func _on_DeathTimer_timeout():
+	$Explosion_Sprite.visible = false
 	pass # Replace with function body.

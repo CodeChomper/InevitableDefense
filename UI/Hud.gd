@@ -54,7 +54,7 @@ func start_wave():
 		# start wave 1
 		var which_alien = round(rand_range(1,100))
 		var alien
-		if which_alien > 75:
+		if which_alien > 50:
 			alien = alien_scene.instance()
 			pass
 		else:
