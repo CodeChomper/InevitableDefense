@@ -21,6 +21,9 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	get_input()
+	if weakref(person).get_ref():
+		if !person.on_heli:
+			person = null
 	velocity = move_and_slide(velocity)
 	$AnimatedSprite.rotation_degrees = velocity.x * 0.02
 	if person != null:
@@ -42,7 +45,6 @@ func shoot():
 	else:
 		bullet.position.x += 42
 	
-	print("shoot")
 	pass
 
 func get_input():

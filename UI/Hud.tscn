@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI/theme.tres" type="Theme" id=1]
+[ext_resource path="res://UI/Hud.gd" type="Script" id=2]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+margin_left = 14.0
+margin_top = 15.0
+margin_right = 188.0
+margin_bottom = 38.0
+theme = ExtResource( 1 )
+text = "Enemys Left:"
+
+[node name="Label2" type="Label" parent="CanvasLayer"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -122.0
+margin_top = 15.0
+margin_right = -15.0
+margin_bottom = 43.0
+theme = ExtResource( 1 )
+text = ": Wave"
+align = 2
+
+[node name="WaveCount" type="Label" parent="CanvasLayer"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -234.0
+margin_top = 15.0
+margin_right = -127.0
+margin_bottom = 43.0
+theme = ExtResource( 1 )
+text = "100"
+align = 2
+
+[node name="EnemyCount" type="Label" parent="CanvasLayer"]
+margin_left = 258.0
+margin_top = 15.0
+margin_right = 324.0
+margin_bottom = 43.0
+theme = ExtResource( 1 )
+text = "100"
+
+[node name="Label3" type="Label" parent="CanvasLayer"]
+margin_left = 14.0
+margin_top = 58.0
+margin_right = 248.0
+margin_bottom = 86.0
+theme = ExtResource( 1 )
+text = "Humans Left:"
+
+[node name="HumanCount" type="Label" parent="CanvasLayer"]
+margin_left = 258.0
+margin_top = 58.0
+margin_right = 324.0
+margin_bottom = 86.0
+theme = ExtResource( 1 )
+text = "100"

@@ -1,0 +1,25 @@
+[gd_resource type="Theme" load_steps=7 format=2]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://UI/Kenney Rocket Square.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+font_data = SubResource( 1 )
+
+[sub_resource type="DynamicFontData" id=3]
+font_path = "res://UI/Kenney Rocket Square.ttf"
+
+[sub_resource type="DynamicFont" id=4]
+font_data = SubResource( 3 )
+
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://UI/Kenney Rocket Square.ttf"
+
+[sub_resource type="DynamicFont" id=6]
+size = 22
+font_data = SubResource( 5 )
+
+[resource]
+Fonts/fonts/large = SubResource( 2 )
+Fonts/fonts/normal = SubResource( 4 )
+Label/fonts/font = SubResource( 6 )

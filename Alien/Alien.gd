@@ -13,9 +13,15 @@ var can_shoot = false
 var ai_state = ""
 var updown = 0
 var prev_x_velocity = 0
+var can_abduct = false
+
+signal alien_died
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var hud = get_node("/root/Node2D/Hud")
+	hud.enemies_left += 1
+	connect("alien_died", hud, "on_alien_died")
 	heli = get_parent().find_node("Heli")
 	pass # Replace with function body.
 
@@ -56,22 +62,23 @@ func patrol(delta):
 	var freq = 1
 	var amplitude = 40
 	velocity.y = cos(updown*freq)*amplitude
-	#velocity = move_and_slide(velocity)
-	
-	
 
 func attack():
 	# follow player
-	velocity = global_position.direction_to(heli.global_position)
-	velocity *= 60
+	if $BeamSprite.visible:
+		velocity.x = 0
+	else:
+		velocity = global_position.direction_to(heli.global_position)
+		velocity *= 60
 	if can_shoot and shoot_heli:
 		shoot()
 
 func shoot():
+	var v = global_position.direction_to(heli.global_position)
 	can_shoot = false
 	var lazer = lazer_scene.instance()
 	lazer.global_position = global_position
-	lazer.velocity = velocity / 20
+	lazer.velocity = v * 2
 	var rot = global_position.angle_to(heli.global_position)
 	lazer.turn_towards(rot)
 	get_parent().add_child(lazer)
@@ -84,6 +91,7 @@ func _on_Bump_area_entered(area):
 		velocity.y *= -1
 
 func die():
+	emit_signal("alien_died")
 	queue_free()
 
 
@@ -109,17 +117,28 @@ func _on_ChangePatrolDir_timeout():
 
 
 func _on_Beam_area_entered(area):
-	ai_state = "abduct"
-	prev_x_velocity = velocity.x
-	if area.get_parent().has_method("get_abducted"):
-		area.get_parent().get_abducted(self)
-		print("Found PERSON!!!!")
+	if can_abduct:
+		ai_state = "abduct"
+		prev_x_velocity = velocity.x
+		if area.get_parent().has_method("get_abducted"):
+			area.get_parent().get_abducted(self, true)
+			print("Found PERSON!!!!")
 	pass # Replace with function body.
 
 
 func _on_Beam_area_exited(area):
 	if area.get_parent().has_method("get_abducted"):
-		area.get_parent().being_abducted = false
+		area.get_parent().get_abducted(null, false)
 		$BeamSprite.visible = false
 		velocity.x = prev_x_velocity
+	pass # Replace with function body.
+
+
+func _on_VisibilityNotifier2D_screen_entered():
+	can_abduct = true
+	pass # Replace with function body.
+
+
+func _on_VisibilityNotifier2D_screen_exited():
+	can_abduct = false
 	pass # Replace with function body.
