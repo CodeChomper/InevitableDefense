@@ -15,7 +15,7 @@ func set_enemies_left(val):
 
 func set_wave(val):
 	wave = val
-	start_wave()
+	$WaveStartTimer.start(5)
 	$CanvasLayer/WaveCount.text = str(wave)
 
 func set_humans_left(val):
@@ -41,15 +41,17 @@ func on_person_died():
 	set_humans_left(humans_left - 1)
 
 func start_wave():
-	if wave == 1:
+	for i in range(wave):
 		# start wave 1
 		var alien = alien_scene.instance()
 		get_parent().call_deferred("add_child", alien)
-		var x_pos = rand_range(200, 201)
-		var y_pos = rand_range(100, 150)
+		var x_pos = rand_range(200, 2500)
+		var y_pos = rand_range(100, 250)
 		alien.global_position = Vector2(x_pos, y_pos)
 		pass
-	if wave == 2:
-		# start wave 2
-		pass
 	pass
+
+
+func _on_WaveStartTimer_timeout():
+	start_wave()
+	pass # Replace with function body.

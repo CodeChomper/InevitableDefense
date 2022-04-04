@@ -64,3 +64,9 @@ margin_right = 324.0
 margin_bottom = 86.0
 theme = ExtResource( 1 )
 text = "100"
+
+[node name="WaveStartTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="timeout" from="WaveStartTimer" to="." method="_on_WaveStartTimer_timeout"]
