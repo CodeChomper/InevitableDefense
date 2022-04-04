@@ -81,7 +81,7 @@ func take_damage(damage):
 
 func get_in_heli(person):
 	self.person = person
-	add_child(person)
+	#add_child(person)
 	person.global_position = global_position
 	person.global_position.y += 20
 	pass

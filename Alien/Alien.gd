@@ -14,12 +14,12 @@ var ai_state = ""
 var updown = 0
 var prev_x_velocity = 0
 var can_abduct = false
-
+var hud
 signal alien_died
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var hud = get_node("/root/Node2D/Hud")
+	hud = get_node("/root/Node2D/Hud")
 	hud.enemies_left += 1
 	connect("alien_died", hud, "on_alien_died")
 	heli = get_parent().find_node("Heli")
@@ -57,7 +57,6 @@ func abduct():
 func patrol(delta):
 	# look for people
 	# move up and down
-	var v = Vector2(0,0)
 	updown += delta / 4
 	var freq = 1
 	var amplitude = 40

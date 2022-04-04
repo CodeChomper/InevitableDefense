@@ -37,7 +37,7 @@ position = Vector2( 0, 107 )
 shape = SubResource( 1 )
 
 [node name="CanShoot" type="Timer" parent="."]
-wait_time = 0.3
+wait_time = 0.5
 autostart = true
 
 [node name="ChangePatrolDir" type="Timer" parent="."]
@@ -62,7 +62,6 @@ polygon = PoolVector2Array( -8, 17, -66, 1411, 72, 1411, 7, 17 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
-[connection signal="tree_entered" from="." to="." method="_on_Alien_tree_entered"]
 [connection signal="area_entered" from="HeliShootZone" to="." method="_on_HeliShootZone_area_entered"]
 [connection signal="area_exited" from="HeliShootZone" to="." method="_on_HeliShootZone_area_exited"]
 [connection signal="timeout" from="CanShoot" to="." method="_on_CanShoot_timeout"]
