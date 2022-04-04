@@ -9,9 +9,14 @@ var velocity = Vector2()
 var side2side = 0
 var heli
 var health = 100
+var hud
+signal alien_died
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	hud = get_parent().find_node("Hud")
+	connect("alien_died", hud, "on_alien_died")
+	hud.enemies_left += 1
 	heli = get_parent().find_node("Heli")
 	pass # Replace with function body.
 
@@ -23,8 +28,9 @@ func _physics_process(delta):
 		attack()
 	var other = move_and_collide(velocity * delta)
 	if other != null and other.collider.has_method("take_damage"):
+		take_damage(100)
 		other.collider.take_damage(100)
-		queue_free()
+		
 	pass
 
 func patrol(delta):
@@ -55,4 +61,14 @@ func take_damage(amount):
 		die()
 
 func die():
+	emit_signal("alien_died")
+	$CollisionPolygon2D.disabled = true
+	$Sprite.visible = false
+	$AnimatedSprite.visible = true
+	$AnimatedSprite.play("default")
+	$DeathTimer.start(0.5)
+
+
+func _on_DeathTimer_timeout():
 	queue_free()
+	pass # Replace with function body.

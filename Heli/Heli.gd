@@ -12,9 +12,12 @@ var bullet_scene = load("res://Heli/Bullet.tscn")
 var health = 100
 var dead = false
 var person
+signal heli_died
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var hud = get_parent().find_node("Hud")
+	connect("heli_died", hud, "game_over")
 	pass # Replace with function body.
 
 
@@ -87,6 +90,7 @@ func get_in_heli(person):
 	pass
 
 func die():
+	emit_signal("heli_died")
 	dead = true
 	$AnimatedSprite.visible = false
 

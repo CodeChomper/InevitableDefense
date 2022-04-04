@@ -8,6 +8,8 @@ var humans_left = 0 setget set_humans_left
 var wave = 0 setget set_wave
 var enemies_left = 0 setget set_enemies_left
 var alien_scene = load("res://Alien/Alien.tscn")
+var alien2_scene = load("res://Alien/Alien02.tscn")
+var game_over_screen
 
 func set_enemies_left(val):
 	enemies_left = val;
@@ -26,6 +28,8 @@ func set_humans_left(val):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	game_over_screen = find_node("GameOverScreen")
+	game_over_screen.visible = false
 	set_wave(1)
 	pass # Replace with function body.
 
@@ -43,7 +47,14 @@ func on_person_died():
 func start_wave():
 	for i in range(wave):
 		# start wave 1
-		var alien = alien_scene.instance()
+		var which_alien = round(rand_range(1,100))
+		var alien
+		if which_alien > 75:
+			alien = alien_scene.instance()
+			pass
+		else:
+			alien = alien2_scene.instance()
+			pass
 		get_parent().call_deferred("add_child", alien)
 		var x_pos = rand_range(200, 2500)
 		var y_pos = rand_range(100, 250)
@@ -51,7 +62,16 @@ func start_wave():
 		pass
 	pass
 
+func game_over():
+	game_over_screen.visible = true
+	$GameOverTimer.start(5)
+
 
 func _on_WaveStartTimer_timeout():
 	start_wave()
+	pass # Replace with function body.
+
+
+func _on_GameOverTimer_timeout():
+	get_tree().reload_current_scene()
 	pass # Replace with function body.
