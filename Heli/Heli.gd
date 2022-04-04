@@ -12,10 +12,17 @@ var bullet_scene = load("res://Heli/Bullet.tscn")
 var health = 100
 var dead = false
 var person
+var healthbar
+export (Color) var _warning = Color.yellow
+export (Color) var _danger = Color.red
+export (Color) var _good = Color.green
 signal heli_died
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	healthbar = $HealthBar
+	healthbar.value = health
+	healthbar.tint_progress = _good
 	var hud = get_parent().find_node("Hud")
 	connect("heli_died", hud, "game_over")
 	pass # Replace with function body.
@@ -34,6 +41,7 @@ func _physics_process(delta):
 
 func shoot():
 	can_shoot = false
+	$Gun.play(0)
 	var bullet = bullet_scene.instance()
 	get_parent().add_child(bullet)
 	
@@ -75,12 +83,21 @@ func going_left():
 
 func take_damage(damage):
 	health -= damage
+	healthbar.value = health
+	if health <= 25:
+		healthbar.tint_progress = _danger
+	elif health <= 50:
+		healthbar.tint_progress = _warning
+	else:
+		healthbar.tint_progress = _good
 	if health <= 0:
 		die()
 	pass
 
 func get_in_heli(person):
 	self.person = person
+	health = 100
+	take_damage(0)
 	#add_child(person)
 	person.global_position = global_position
 	person.global_position.y += 40
@@ -90,6 +107,7 @@ func die():
 	emit_signal("heli_died")
 	dead = true
 	$AnimatedSprite.visible = false
+	healthbar.visible = false
 
 func _on_Overlaping_area_entered(area):
 	if area.is_in_group('Sides'):

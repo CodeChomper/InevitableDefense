@@ -62,6 +62,7 @@ func take_damage(amount):
 
 func die():
 	emit_signal("alien_died")
+	$Explosion.play(0)
 	$CollisionPolygon2D.disabled = true
 	$Sprite.visible = false
 	$AnimatedSprite.visible = true

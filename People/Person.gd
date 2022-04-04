@@ -4,11 +4,13 @@ var velocity = Vector2()
 var ai_state = "falling" # falling beign_abducted on_heli walking
 var ship
 var WALK_SPEED = 20
+var splat_scene = load("res://People/Splat.tscn")
 signal person_died
-
+var sprite
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	sprite = $Sprite
 	var hud = get_node("/root/Node2D/Hud")
 	connect("person_died", hud, "on_person_died")
 	hud.humans_left += 1
@@ -25,6 +27,7 @@ func _physics_process(delta):
 		return
 	
 	if ai_state == "falling":
+		sprite.play("falling")
 		velocity.y += 0.75
 	
 	if is_on_floor():
@@ -32,6 +35,7 @@ func _physics_process(delta):
 			die()
 			return
 		ai_state = "walking"
+		sprite.play("walking")
 		if abs(velocity.x) < 0.2:
 			velocity.x = WALK_SPEED
 	elif !ai_state == "on_heli":
@@ -39,6 +43,11 @@ func _physics_process(delta):
 	
 	if is_on_wall() and ai_state == "walking":
 		velocity.x = -prev_velocity.x
+	
+	if velocity.x > 0:
+		sprite.flip_h = false
+	else:
+		sprite.flip_h = true
 	pass
 
 func float_up(delta):
@@ -56,6 +65,9 @@ func get_abducted(ship):
 
 func die():
 	emit_signal("person_died")
+	var splat = splat_scene.instance()
+	get_parent().add_child(splat)
+	splat.global_position = global_position
 	queue_free()
 
 

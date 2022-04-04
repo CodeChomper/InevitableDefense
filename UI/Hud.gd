@@ -30,6 +30,7 @@ func set_humans_left(val):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$Mission.play()
 	game_over_screen = find_node("GameOverScreen")
 	game_over_screen.visible = false
 	set_wave(1)
@@ -47,6 +48,8 @@ func on_person_died():
 	set_humans_left(humans_left - 1)
 
 func start_wave():
+	if wave > 1:
+		$WaveIncoming.play(0)
 	for i in range(wave):
 		# start wave 1
 		var which_alien = round(rand_range(1,100))
@@ -66,6 +69,7 @@ func start_wave():
 
 func game_over():
 	game_over_screen.visible = true
+	$GameOver.play(0)
 	$GameOverTimer.start(5)
 
 

@@ -91,6 +91,7 @@ func _on_Bump_area_entered(area):
 
 func die():
 	emit_signal("alien_died")
+	$Explosion.play(0)
 	can_abduct = false
 	$Sprite.visible = false
 	$CollisionPolygon2D.disabled = true

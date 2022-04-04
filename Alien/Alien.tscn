@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Alien/Alien.png" type="Texture" id=1]
 [ext_resource path="res://Alien/Alien.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Alien/Alien01_03.png" type="Texture" id=8]
 [ext_resource path="res://Alien/Alien01_01.png" type="Texture" id=9]
 [ext_resource path="res://Alien/Alien01_04.png" type="Texture" id=10]
+[ext_resource path="res://Sounds/explosion.ogg" type="AudioStream" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 223, 107 )
@@ -85,6 +86,10 @@ frame = 4
 [node name="DeathTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
+
+[node name="Explosion" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 11 )
+pitch_scale = 0.67
 
 [connection signal="area_entered" from="HeliShootZone" to="." method="_on_HeliShootZone_area_entered"]
 [connection signal="area_exited" from="HeliShootZone" to="." method="_on_HeliShootZone_area_exited"]
