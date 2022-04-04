@@ -22,7 +22,7 @@ animations = [ {
 extents = Vector2( 31.5, 19 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 28.5, 16 )
+extents = Vector2( 34.5, 22 )
 
 [node name="Heli" type="KinematicBody2D" groups=["Heli"]]
 collision_layer = 2
@@ -31,7 +31,7 @@ script = ExtResource( 9 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-frame = 2
+frame = 4
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -58,7 +58,7 @@ editor_draw_drag_margin = true
 collision_layer = 2
 collision_mask = 20
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Overlaping"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Overlaping" groups=["Heli"]]
 position = Vector2( -0.5, -3 )
 shape = SubResource( 3 )
 

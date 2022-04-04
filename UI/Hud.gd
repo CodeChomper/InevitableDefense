@@ -24,6 +24,8 @@ func set_humans_left(val):
 	# Update UI
 	humans_left = val
 	$CanvasLayer/HumanCount.text = str(val)
+	if humans_left <= 0:
+		game_over()
 	pass
 
 # Called when the node enters the scene tree for the first time.
@@ -56,7 +58,7 @@ func start_wave():
 			alien = alien2_scene.instance()
 			pass
 		get_parent().call_deferred("add_child", alien)
-		var x_pos = rand_range(200, 2500)
+		var x_pos = rand_range(10, 2900) #2900
 		var y_pos = rand_range(100, 250)
 		alien.global_position = Vector2(x_pos, y_pos)
 		pass

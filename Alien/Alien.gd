@@ -91,6 +91,7 @@ func _on_Bump_area_entered(area):
 
 func die():
 	emit_signal("alien_died")
+	can_abduct = false
 	$Sprite.visible = false
 	$CollisionPolygon2D.disabled = true
 	$AnimatedSprite.visible = true
@@ -124,14 +125,14 @@ func _on_Beam_area_entered(area):
 		ai_state = "abduct"
 		prev_x_velocity = velocity.x
 		if area.get_parent().has_method("get_abducted"):
-			area.get_parent().get_abducted(self, true)
+			area.get_parent().get_abducted(self)
 			print("Found PERSON!!!!")
 	pass # Replace with function body.
 
 
 func _on_Beam_area_exited(area):
 	if area.get_parent().has_method("get_abducted"):
-		area.get_parent().get_abducted(null, false)
+		area.get_parent().get_abducted(null)
 		$BeamSprite.visible = false
 		velocity.x = prev_x_velocity
 	pass # Replace with function body.
