@@ -54,7 +54,6 @@ func shoot():
 		bullet.position.x += 42
 	
 	pass
-
 func get_input():
 	if dead:
 		return
@@ -63,8 +62,12 @@ func get_input():
 	if Input.is_action_pressed("down"):
 		velocity.y += SPEED
 	if Input.is_action_pressed("left"):
+		if velocity.x > 0:
+			velocity.x -= velocity.x / 8
 		velocity.x -= SPEED
 	if Input.is_action_pressed("right"):
+		if velocity.x < 0:
+			velocity.x -= velocity.x / 8
 		velocity.x += SPEED	
 	
 	velocity.x = clamp(velocity.x, -MAX_SPEED, MAX_SPEED)
