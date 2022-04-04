@@ -24,13 +24,10 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	get_input()
-	if weakref(person).get_ref():
-		if !person.on_heli:
-			person = null
 	velocity = move_and_slide(velocity)
 	$AnimatedSprite.rotation_degrees = velocity.x * 0.02
-	if person != null:
-		if person.on_heli:
+	if weakref(person).get_ref():
+		if person.ai_state == "on_heli":
 			person.global_position = global_position
 			person.global_position.y += 45
 	pass
@@ -86,7 +83,7 @@ func get_in_heli(person):
 	self.person = person
 	#add_child(person)
 	person.global_position = global_position
-	person.global_position.y += 20
+	person.global_position.y += 40
 	pass
 
 func die():

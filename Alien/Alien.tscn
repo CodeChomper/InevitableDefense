@@ -15,7 +15,7 @@
 extents = Vector2( 223, 107 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 29, 20 )
+extents = Vector2( 29, 20.5 )
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
@@ -59,12 +59,12 @@ autostart = true
 wait_time = 10.0
 autostart = true
 
-[node name="Bump" type="Area2D" parent="."]
-collision_layer = 0
+[node name="Bump" type="Area2D" parent="." groups=["Alien"]]
+collision_layer = 32
 collision_mask = 20
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bump"]
-position = Vector2( 0, -5 )
+position = Vector2( 0, -4.5 )
 shape = SubResource( 2 )
 
 [node name="Beam" type="Area2D" parent="."]
