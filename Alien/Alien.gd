@@ -91,7 +91,11 @@ func _on_Bump_area_entered(area):
 
 func die():
 	emit_signal("alien_died")
-	queue_free()
+	$Sprite.visible = false
+	$CollisionPolygon2D.disabled = true
+	$AnimatedSprite.visible = true
+	$AnimatedSprite.play("default")
+	$DeathTimer.start(0.5)
 
 
 func _on_HeliShootZone_area_entered(area):
@@ -140,4 +144,9 @@ func _on_VisibilityNotifier2D_screen_entered():
 
 func _on_VisibilityNotifier2D_screen_exited():
 	can_abduct = false
+	pass # Replace with function body.
+
+
+func _on_DeathTimer_timeout():
+	queue_free()
 	pass # Replace with function body.
